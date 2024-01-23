@@ -7,10 +7,10 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public final class Main {
+public class Main {
     public static final Pattern getFileFolder = Pattern.compile("^(.+\\/)?([^/]+)");
 
-    public static final void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
         if (args.length == 0) {
             System.out.println("regexcaller [regexes] [destination] [files...]\nUse regexcaller help for more info.");
             return;
@@ -32,14 +32,14 @@ public final class Main {
             printToFile(args[1] + "/" + getFileName(args[i]), replace(fromFile(args[i]), regexes));
     }
 
-    public static final String getFileName(String filename) throws Exception {
+    public static String getFileName(String filename) throws Exception {
         Matcher matcher = getFileFolder.matcher(filename);
         if (!matcher.matches())
             throw new Exception("How did we get here");
         return matcher.group(2);
     }
 
-    public static final String fromFile(String filename) throws FileNotFoundException {
+    public static String fromFile(String filename) throws FileNotFoundException {
         String str = "";
         try (Scanner scanner = new Scanner(new File(filename))) {
             while (scanner.hasNextLine())
@@ -48,13 +48,13 @@ public final class Main {
         return str;
     }
 
-    public static final void printToFile(String filename, String data) throws FileNotFoundException {
+    public static void printToFile(String filename, String data) throws FileNotFoundException {
         try (PrintStream stream = new PrintStream(new File(filename))) {
             stream.print(data);
         }
     }
 
-    public static final String replace(String str, String regexes) {
+    public static String replace(String str, String regexes) {
         String ret = str;
         try (Scanner scanner = new Scanner(regexes)) {
             while (scanner.hasNextLine()) {
